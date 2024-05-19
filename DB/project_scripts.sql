@@ -5,16 +5,24 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
 -- Schema project_show
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
 -- Schema project_show
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `project_show` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `project_show` DEFAULT CHARACTER SET utf8mb3 ;
 -- -----------------------------------------------------
--- Schema project_show
+-- Schema project_showcountry
 -- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema project_showcountry
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `project_showcountry` ;
 USE `project_show` ;
 
 -- -----------------------------------------------------
@@ -22,43 +30,12 @@ USE `project_show` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project_show`.`country` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `question` VARCHAR(100) NULL,
-  `answer` VARCHAR(45) NULL,
+  `question` VARCHAR(100) NULL DEFAULT NULL,
+  `answer` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `project_show`.`number`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `project_show`.`number` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `question` VARCHAR(100) NULL,
-  `answer` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `project_show`.`exercise`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `project_show`.`exercise` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `question` VARCHAR(100) NULL,
-  `answer` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `project_show`.`person`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `project_show`.`person` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `question` VARCHAR(100) NULL,
-  `answer` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+AUTO_INCREMENT = 37
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -66,39 +43,86 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project_show`.`etc` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `question` VARCHAR(100) NULL,
-  `answer` VARCHAR(45) NULL,
+  `question` VARCHAR(100) NULL DEFAULT NULL,
+  `answer` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+AUTO_INCREMENT = 55
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `project_show`.`exercise`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `project_show`.`exercise` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `question` VARCHAR(100) NULL DEFAULT NULL,
+  `answer` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 55
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `project_show`.`number`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `project_show`.`number` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `question` VARCHAR(100) NULL DEFAULT NULL,
+  `answer` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 25
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `project_show`.`person`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `project_show`.`person` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `question` VARCHAR(100) NULL DEFAULT NULL,
+  `answer` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 14
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
 -- Table `project_show`.`users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project_show`.`users` (
-  `id` VARCHAR(45) NOT NULL,
+  `userId` VARCHAR(45) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
-  `username` VARCHAR(45) NOT NULL,
-  `nickname` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+  `userName` VARCHAR(45) NOT NULL,
+  `nickName` VARCHAR(45) NOT NULL,
+  `regDate` DATETIME NOT NULL,
+  PRIMARY KEY (`userId`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
 -- Table `project_show`.`userdata`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project_show`.`userdata` (
-  `nickname` VARCHAR(45) NOT NULL,
-  `score` VARCHAR(45) NULL,
-  `date` DATETIME NULL,
-  PRIMARY KEY (`nickname`),
-  CONSTRAINT `nickname`
-    FOREIGN KEY (`nickname`)
-    REFERENCES `project_showcountry`.`users` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+	`id` INT NOT NULL AUTO_INCREMENT,
+  `userId` VARCHAR(45) NULL DEFAULT NULL,
+  `nickName` VARCHAR(45) NOT NULL,
+  `userName` VARCHAR(45) NOT NULL,
+  `score` VARCHAR(45) NULL DEFAULT NULL,
+  `solveDate` DATETIME NULL DEFAULT NULL,
+  INDEX `nickname_idx` (`userId` ASC) VISIBLE,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `userId`
+    FOREIGN KEY (`userId`)
+    REFERENCES `project_show`.`users` (`userId`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
+USE `project_showcountry` ;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
