@@ -120,9 +120,24 @@ CREATE TABLE IF NOT EXISTS `project_show`.`userdata` (
     FOREIGN KEY (`userId`)
     REFERENCES `project_show`.`users` (`userId`)
     ON DELETE CASCADE)
-    
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
+    
+-- -----------------------------------------------------
+-- Table `project_show`.`arenas`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `project_show`.`arenas` (
+  `arenaId` INT NOT NULL AUTO_INCREMENT,
+  `field` VARCHAR(100) NULL DEFAULT NULL,
+  `starter` VARCHAR(45) NULL DEFAULT NULL,
+  `interest` INT NOT NULL,
+  `openDay` DATETIME NULL DEFAULT NULL,  
+  `content` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`arenaId`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
 
 USE `project_show` ;
 
