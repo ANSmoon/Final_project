@@ -22,7 +22,7 @@ CREATE SCHEMA IF NOT EXISTS `project_show` DEFAULT CHARACTER SET utf8mb3 ;
 -- -----------------------------------------------------
 -- Schema project_showcountry
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `project_showcountry` ;
+CREATE SCHEMA IF NOT EXISTS `project_show` ;
 USE `project_show` ;
 
 -- -----------------------------------------------------
@@ -118,11 +118,13 @@ CREATE TABLE IF NOT EXISTS `project_show`.`userdata` (
   PRIMARY KEY (`id`),
   CONSTRAINT `userId`
     FOREIGN KEY (`userId`)
-    REFERENCES `project_show`.`users` (`userId`))
+    REFERENCES `project_show`.`users` (`userId`)
+    ON DELETE CASCADE)
+    
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
-USE `project_showcountry` ;
+USE `project_show` ;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
