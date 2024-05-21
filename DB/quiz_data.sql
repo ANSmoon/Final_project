@@ -11,7 +11,7 @@ INSERT INTO arenas (field, starter, interest, openDay, content)
 VALUES ("운영자 나와", "kim", 63, now(), "운영자가 문BS 라던데...");
 
 INSERT INTO arenas (field, starter, interest, openDay, content) 
-VALUES ("푸바오 사육", "태한", 172, now(), "푸바오 솔직히 좀 많이 먹긴 함ㅎ");
+VALUES ("푸바오 사육", "sonoisy", 172, now(), "푸바오 솔직히 좀 많이 먹긴 함ㅎ");
 
 INSERT INTO fights (arenaId, content, fighter, fightDay) 
 VALUES (4, "범수는 맹구인 것인가", "kim", now());
@@ -20,19 +20,22 @@ INSERT INTO fights (arenaId, content, fighter, fightDay)
 VALUES (4, "그는 왜 맹구를 택하였는가", "kim", now());
 
 INSERT INTO fights (arenaId, content, fighter, fightDay) 
-VALUES (4, "범수야 맹구는 중간이 딱이야", "태한", now());
+VALUES (4, "범수야 맹구는 중간이 딱이야", "sonoisy", now());
 
 INSERT INTO fights (arenaId, content, fighter, fightDay) 
 VALUES (4, "예본아 내가 사실...", "두둥탁", now());
 
 INSERT INTO fights (arenaId, content, fighter, fightDay) 
-VALUES (5, "예본아 내가 사실...", "두둥탁", now());
+VALUES (2, "예본아 내가 사실...", "두둥탁", now());
 
 INSERT INTO fights (arenaId, content, fighter, fightDay) 
-VALUES (5, "예본아 내가 사실...", "kim", now());
+VALUES (3, "예본아 내가 사실...", "kim", now());
 
 INSERT INTO fights (arenaId, content, fighter, fightDay) 
-VALUES (6, "예본아 내가 사실...", "두둥탁", now());
+VALUES (3, "밥 더 줘", "두둥탁", now());
+
+INSERT INTO fights (arenaId, content, fighter, fightDay) 
+VALUES (3, "그만먹어 탁바오", "sonoisy", now());
 
 DELETE FROM users
 WHERE userId = "ssaf";
