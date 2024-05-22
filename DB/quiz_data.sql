@@ -37,11 +37,21 @@ VALUES (3, "밥 더 줘", "두둥탁", now());
 INSERT INTO fights (arenaId, content, fighter, fightDay) 
 VALUES (3, "그만먹어 탁바오", "sonoisy", now());
 
-DELETE FROM users
-WHERE userId = "ssaf";
-
 
 SELECT * FROM users;
 SELECT * FROM userdata;
 SELECT * FROM arenas;
 SELECT * FROM fights;
+
+SELECT * FROM country;
+SELECT * FROM etc;
+SELECT * FROM exercise;
+SELECT * FROM number;
+SELECT * FROM person;
+
+SELECT * FROM basic;
+SELECT * FROM champs;
+SELECT * FROM esports;
+SELECT * FROM kleague;
+SELECT * FROM kbo;
+SELECT * FROM forever;
