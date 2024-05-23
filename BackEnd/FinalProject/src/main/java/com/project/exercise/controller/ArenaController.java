@@ -33,6 +33,7 @@ public class ArenaController {
 	@GetMapping("/arena/list")
 	public ResponseEntity<List<Arena>> getArenaList(){
 		List<Arena> list = arenaService.getArenaList();
+		System.out.println(list);
 		
 		return new ResponseEntity<List<Arena>>(list, HttpStatus.OK);
 	}

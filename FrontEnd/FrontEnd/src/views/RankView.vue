@@ -1,47 +1,40 @@
 <template>
-  <div>
-    <div>
-      <h4>사용자 랭킹</h4>
+  <div class="ranking-board">
+    <div class="search-bar">
+      <h1>RANKING BOARD</h1>
+      <br>
+      <br>
       <label>정렬 기준 : </label>
       <select v-model="searchInfo.orderSt">
         <option value="score">점수</option>
         <option value="solveDate">달성일</option>
       </select>
       <label>정렬 방향 : </label>
-      <select
-        v-if="searchInfo.orderSt === 'score'"
-        v-model="searchInfo.orderByDir"
-      >
+      <select v-if="searchInfo.orderSt === 'score'" v-model="searchInfo.orderByDir">
         <option value="asc">오름차순</option>
         <option value="desc">내림차순</option>
       </select>
-      <select
-        v-show="searchInfo.orderSt === 'solveDate'"
-        v-model="searchInfo.orderByDir"
-      >
+      <select v-show="searchInfo.orderSt === 'solveDate'" v-model="searchInfo.orderByDir">
         <option value="asc">과거순</option>
         <option value="desc">최근순</option>
       </select>
-    </div>
-    <div>
       <label>검색 : </label>
       <select v-model="searchInfo.searchItem">
-        <option value="none" disabled selected hidden>검색</option>
-        <option value="category">카테고리</option>
+        <option value="none" disabled selected hidden>검색기준</option>
         <option value="nickName">닉네임</option>
         <option value="score">점수</option>
       </select>
       <input
-        type="text"
         v-if="searchInfo.searchItem !== 'score'"
-        placeholder="검색어를 입력하세요"
+        type="text"
+        placeholder="검색어를 입력하다"
         v-model="searchInfo.searchValue"
         @keyup.enter="searchList"
       />
       <input
-        type="number"
         v-if="searchInfo.searchItem === 'score'"
-        placeholder="검색어를 입력하세요"
+        type="number"
+        placeholder="검색어를 입력하다"
         v-model="searchInfo.searchValue"
         @keyup.enter="searchList"
       />
@@ -49,6 +42,7 @@
       <button @click="resetSearch">초기화</button>
     </div>
     <hr />
+    
 
     <v-card>
       <v-tabs v-model="tab">
@@ -196,37 +190,17 @@
         </v-tabs-window>
       </v-card-text>
     </v-card>
-    <!-- <table>
-      <tr>
-        <th>이름</th>
-        <th>ID</th>
-        <th>닉네임</th>
-        <th>카테고리</th>
-        <th>점수</th>
-        <th>달성일</th>
-      </tr>
-      <tr v-for="data in rankStore.dataList" :key="data.id">
-        <td>{{ data.userName }}</td>
-        <td>{{ data.userId }}</td>
-        <td>{{ data.nickName }}</td>
-        <td>{{ data.category }}</td>
-        <td>{{ data.score }}</td>
-        <td>{{ data.solveDate }}</td>
-      </tr>
-    </table> -->
   </div>
 </template>
 
 <script setup>
 import { useRankStore } from "@/stores/rank";
 import { ref, onMounted, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-
-const router = useRouter();
+import { useRouter } from "vue-router";
 
 const rankStore = useRankStore();
-
-const tab = ref(null);
+const router = useRouter();
+const tab = ref(null)
 
 const searchInfo = ref({
   searchItem: "none",
@@ -295,10 +269,81 @@ onMounted(() => {
 </script>
 
 <style scoped>
-button,
-input,
-select {
-  margin-right: 3px;
-  border: 1px solid black;
+/* RankView.vue */
+
+/* .ranking-board 스타일 수정 */
+.ranking-board {
+  margin: 50px auto; /* 수직 가운데 정렬 및 위쪽 여백 추가 */
+  max-width: 90%; /* 전체 너비의 90% 사용 */
+  padding: 20px; /* 내부 여백 추가 */
+  border: 1px solid #ddd; /* 테두리 추가 */
+  border-radius: 10px; /* 테두리 모서리를 둥글게 */
 }
+
+/* 검색 바 스타일 수정 */
+.search-bar {
+  margin-bottom: 30px; /* 아래쪽 간격 늘리기 */
+  text-align: center;
+}
+
+.search-bar label {
+  margin-right: 15px; /* 레이블과 입력 요소 사이 간격 늘리기 */
+}
+
+.search-bar select,
+.search-bar input[type="text"],
+.search-bar input[type="number"],
+.search-bar button {
+  margin: 5px 10px; /* 입력 요소 간격 늘리기 */
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+
+.search-bar button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.search-bar button:hover {
+  background-color: #45a049;
+}
+
+.search-bar button:disabled {
+  background-color: #ddd;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* 랭킹 테이블 스타일 수정 */
+.ranking-table {
+  margin: 0 auto; /* 수평 가운데 정렬 */
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ranking-table th {
+  background-color: darkkhaki;
+  color: white;
+  padding: 12px;
+  text-align: center;
+}
+
+.ranking-table td {
+  padding: 8px;
+  text-align: center;
+}
+
+.ranking-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.ranking-table tbody tr:hover {
+  background-color: #ddd;
+}
+
+
 </style>

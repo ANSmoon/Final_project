@@ -1,18 +1,18 @@
 <template>
-  <div>
+  <div class="container">
     <h2>MAKE YOUR ARENA</h2>
     <hr />
     <fieldset>
       <legend>GIVE ME A FIGHT</legend>
-      <div>
-        <label for="field">FIELD : </label>
+      <div class="form-group">
+        <label for="field">TITLE : </label>
         <input type="text" id="title" v-model="arena.field" />
       </div>
-      <div>
+      <div class="form-group">
         <label for="starter">개최자 : </label>
-        {{ nickName }}
+        <span>{{ nickName }}</span>
       </div>
-      <div>
+      <div class="form-group">
         <label for="content">내용 : </label>
         <textarea
           id="content"
@@ -21,7 +21,7 @@
           v-model="arena.content"
         ></textarea>
       </div>
-      <div>
+      <div class="form-group">
         <button @click="createArena">등록</button>
       </div>
     </fieldset>
@@ -56,8 +56,69 @@ const createArena = async () => {
 </script>
 
 <style scoped>
-input,
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 3%;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+fieldset {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+legend {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
 textarea {
-  border: 1px solid black;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
 }
 </style>

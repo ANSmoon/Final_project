@@ -2,9 +2,11 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import axios from "axios";
 const apiKey = import.meta.env.VITE_KAKAO_API_KEY;
+const url = "https://api.kakaobrain.com/v1/inference/kogpt/generation";
 
 export const useKakaoStore = defineStore("kakao", () => {
-  const question = "판다가 뭐야?";
+  const question =
+    "택견'은 어느 나라 고유의 전통 무예일까요? 에 대한 힌트를 줘";
   const hint = ref("");
 
   const getHint = function () {
@@ -14,7 +16,7 @@ export const useKakaoStore = defineStore("kakao", () => {
         {
           prompt: question,
           max_tokens: 50,
-          temperature: 1.0,
+          temperature: 0.01,
           n: 1,
         },
         {

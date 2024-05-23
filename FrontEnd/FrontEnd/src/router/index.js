@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { ref } from "vue";
 import HomeView from "../views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 import RegistView from "@/views/RegistView.vue";
@@ -13,6 +12,7 @@ import ArenaDetail from "@/components/arena/ArenaDetail.vue";
 import ArenaCreate from "@/components/arena/ArenaCreate.vue";
 import ArenaUpdate from "@/components/arena/ArenaUpdate.vue";
 import FightList from "@/components/fight/FightList.vue";
+import { ref } from "vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -100,7 +100,7 @@ router.beforeEach((to, from) => {
     return { name: "home" };
   }
 
-  if (user.value === null && to.name === "fight") {
+  if (!user.value && to.name === "fight") {
     return { name: "arenaList" };
   }
 

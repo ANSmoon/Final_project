@@ -66,8 +66,11 @@
       @click="getHint"
       v-if="hintBool && !isGameFinished"
     >
-      Hint {{ store.hint }}
+      Hint
+
+      <!-- Hint {{ kakaoStore.hint }} -->
     </button>
+    {{ store.hint }}
 
     <!-- 모달 -->
     <div class="modal" v-if="store.isModalOpen">
@@ -93,14 +96,17 @@
 
 <script setup>
 import { ref, computed, onMounted, watch, onBeforeUnmount } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import { useGameStore } from "@/stores/game";
+import { useKakaoStore } from "@/stores/kakao";
 
 const store = useGameStore();
-const route = useRoute();
+const kakaoStore = useKakaoStore();
 const router = useRouter();
 const userAnswer = ref("");
 const userAnswerInput = ref(null); // 입력 필드를 참조하는 ref
+const route = useRoute();
 
 const currentProblem = computed(() => store.problems[store.currentIndex]);
 const hintCnt = ref(0);
@@ -149,6 +155,7 @@ const getHint = async () => {
       hintBool.value = false;
     }
     await store.getHint(store.currentIndex);
+    // await kakaoStore.getHint(store.currentIndex);
     console.log("hint out");
   }
 };

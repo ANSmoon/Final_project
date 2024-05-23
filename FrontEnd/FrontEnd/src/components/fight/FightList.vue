@@ -1,112 +1,98 @@
 <template>
   <div id="app">
     <v-app id="inspire">
-      <div>
-        <v-layout column justify-center align-center>
-          <v-subheader>Offset Top</v-subheader>
-        </v-layout>
-        <button @click="openFight">댓글달기</button>
-        <table>
-          <v-container
-            id="scroll-target"
-            style="max-height: 200px"
-            class="scroll-y"
-            v-scroll="onScroll"
-          >
-            <tr>
-              <th>번호</th>
-              <th>댓글</th>
-              <th>상대</th>
-              <th>time</th>
-              <th>수정</th>
-              <th>삭제</th>
-            </tr>
-            <tr
-              v-for="(fight, index) in fightStore.fightList"
-              :key="fight.fightId"
-            >
-              <td>{{ index + 1 }}</td>
-              <td>
-                <span v-if="fight.fighter !== loginUser || !userCheck[index]">{{
-                  fight.content
-                }}</span>
-                <fieldset v-if="userCheck[index]">
-                  <input
-                    ref="updateInput"
-                    type="text"
-                    v-model="fightStore.fightData.content"
-                    @keyup.enter="updateFight(index)"
-                  />
-                  <button @click="updateFight(index)">완료</button>
-                  <button @click="cancelUpdate(index)">취소</button>
-                </fieldset>
-              </td>
-              <td>{{ fight.fighter }}</td>
-              <td>{{ fight.fightDay }}</td>
-              <td>
-                <button
-                  @click="changeTag(index, fight.fightId)"
-                  v-if="fight.fighter === loginUser"
-                >
-                  수정
-                </button>
-              </td>
-              <td>
-                <button
-                  @click="deleteFight(fight.fightId)"
-                  v-if="fight.fighter === loginUser"
-                >
-                  삭제
-                </button>
-              </td>
-            </tr>
-            <tr v-if="openBool">
-              <td>{{ fightLength + 1 }}</td>
-              <td>
-                <fieldset>
-                  <input
-                    ref="createInput"
-                    type="text"
-                    v-model="fightStore.createData.content"
-                    @keyup.enter="createFight"
-                  />
-                  <button @click="createFight">완료</button>
-                  <button @click="cancelCreate">취소</button>
-                </fieldset>
-              </td>
-              <td>{{ loginUser }}</td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-          </v-container>
-        </table>
+      <div class="comment-section">
+        <div class="comment-input-container">
+          <textarea
+            v-model="fightStore.createData.content"
+            ref="createInput"
+            placeholder="댓글을 입력하세요"
+            class="comment-input"
+          ></textarea>
+          <button @click="createFight" class="submit-button">댓글달기</button>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>번호</th>
+                <th>댓글</th>
+                <th>상대</th>
+                <th>시간</th>
+                <th>수정</th>
+                <th>삭제</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(fight, index) in fightStore.fightList"
+                :key="fight.fightId"
+              >
+                <td>{{ index + 1 }}</td>
+                <td>
+                  <span
+                    v-if="fight.fighter !== loginUser || !userCheck[index]"
+                    >{{ fight.content }}</span
+                  >
+                  <fieldset v-if="userCheck[index]">
+                    <input
+                      ref="updateInput"
+                      type="text"
+                      v-model="fightStore.fightData.content"
+                      @keyup.enter="updateFight(index)"
+                    />
+                    <button @click="updateFight(index)" class="complete-button">
+                      완료
+                    </button>
+                    <button @click="cancelUpdate(index)" class="cancel-button">
+                      취소
+                    </button>
+                  </fieldset>
+                </td>
+                <td>{{ fight.fighter }}</td>
+                <td>{{ fight.fightDay }}</td>
+                <td>
+                  <button
+                    @click="changeTag(index, fight.fightId)"
+                    v-if="fight.fighter === loginUser"
+                    class="modify-button"
+                  >
+                    수정
+                  </button>
+                </td>
+                <td>
+                  <button
+                    @click="deleteFight(fight.fightId)"
+                    v-if="fight.fighter === loginUser"
+                    class="delete-button"
+                  >
+                    삭제
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </v-app>
   </div>
 </template>
 
 <script setup>
-import { nextTick, onMounted, ref } from "vue";
-import { useArenaStore } from "@/stores/arena";
+import { onMounted, ref } from "vue";
 import { useFightStore } from "@/stores/fight";
 import { useRoute, useRouter } from "vue-router";
+import { useArenaStore } from "@/stores/arena";
 
-const offsetTop = ref(0);
-const onScroll = function (e) {
-  offsetTop.value = e.target.scrollTop;
-};
-
-const arenaStore = useArenaStore();
 const fightStore = useFightStore();
+const arenaStore = useArenaStore();
 const route = useRoute();
 const router = useRouter();
 
 const loginUser = sessionStorage.getItem("user");
-// src="@/assets/img/${category}/${problemId}.jpg"
+
 const userCheck = ref([]);
 const updateIng = ref(false);
-const openBool = ref(false);
 const fightLength = ref(0);
 const createInput = ref(null);
 const updateInput = ref(null);
@@ -115,14 +101,11 @@ const changeTag = async (index, fightId) => {
   if (!updateIng.value) {
     await fightStore.getFightOne(fightId);
     setTimeout(() => {
-      console.log(updateInput.value);
       if (updateInput.value[0]) {
         updateInput.value[0].focus();
       }
     }, 0);
-    if (userCheck.value[index] === undefined || !userCheck.value[index]) {
-      userCheck.value[index] = true;
-    }
+    userCheck.value[index] = true;
     updateIng.value = true;
   }
 };
@@ -138,46 +121,27 @@ const updateFight = async (index) => {
   }
 };
 
-const cancelUpdate = function (index) {
+const cancelUpdate = (index) => {
   updateIng.value = false;
   userCheck.value[index] = false;
-};
-
-const openFight = function () {
-  if (!openBool.value) {
-    openBool.value = true;
-    fightStore.createData.arenaId = route.params.arenaId;
-    fightStore.createData.fighter = sessionStorage.getItem("user");
-    setTimeout(() => {
-      if (createInput.value) {
-        console.log(createInput.value);
-        createInput.value.focus();
-      }
-    }, 0);
-  }
-};
-
-const deleteFight = async (fightId) => {
-  await fightStore.deleteFight(fightId);
-  await fightStore.getFightList(route.params.arenaId);
 };
 
 const createFight = async () => {
   if (fightStore.createData.content === "") {
     alert("댓글을 입력하세요");
   } else {
+    fightStore.createData.arenaId = route.params.arenaId;
     await fightStore.createFight();
     fightStore.createData.content = "";
-    openBool.value = false;
     await arenaStore.updateInterest(route.params.arenaId, 3);
     await fightStore.getFightList(route.params.arenaId);
     router.go();
   }
 };
 
-const cancelCreate = function () {
-  fightStore.createData.content = "";
-  openBool.value = false;
+const deleteFight = async (fightId) => {
+  await fightStore.deleteFight(fightId);
+  await fightStore.getFightList(route.params.arenaId);
 };
 
 onMounted(async () => {
@@ -187,36 +151,99 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.scroll-y {
-  overflow-y: auto;
+.comment-section {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment-input-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.comment-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.submit-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
 }
 
 table {
+  width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  background-color: #fff;
 }
 
 th,
 td {
-  border: 1px solid #ddd;
-  padding: 8px;
+  padding: 10px;
+  border: 1px solid #eaeaea;
+  text-align: left;
 }
 
 th {
   background-color: #f2f2f2;
-  text-align: left;
-}
-
-tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-tbody tr:hover {
-  background-color: #f1f1f1;
 }
 
 button {
-  border: 1px solid black;
-  margin-right: 3px;
+  padding: 5px 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+button.cancel-button {
+  background-color: #dc3545;
+}
+
+button.cancel-button:hover {
+  background-color: #c82333;
+}
+
+fieldset {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 5px;
 }
 </style>

@@ -49,6 +49,7 @@ public class FightController {
 	
 	@PostMapping("/fight/create")
 	public ResponseEntity<Boolean> createFight(@RequestBody Fight fight){
+		System.out.println(fight);
 		fightService.createFight(fight);
 		return new ResponseEntity<Boolean>(true, HttpStatus.ACCEPTED);
 	}
